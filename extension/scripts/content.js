@@ -72,6 +72,12 @@ function evaluate() {
         signals,
     });
 }
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+    if ((msg === null || msg === void 0 ? void 0 : msg.type) === "SCAN_REQUEST") {
+        evaluate();
+        sendResponse({ ok: true });
+    }
+});
 // Debounced re-scan for SPAs (React/Next/etc. render after load)
 let timer;
 const observer = new MutationObserver(() => {

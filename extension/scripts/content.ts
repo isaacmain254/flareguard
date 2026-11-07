@@ -96,6 +96,13 @@ function evaluate() {
   });
 }
 
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg?.type === "SCAN_REQUEST") {
+    evaluate();
+    sendResponse({ ok: true });
+  }
+});
+
 // Debounced re-scan for SPAs (React/Next/etc. render after load)
 let timer: number | undefined;
 const observer = new MutationObserver(() => {

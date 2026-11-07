@@ -42,8 +42,10 @@ extension/
 │   └── content.js     # Compiled content script
 ├── popup/
 │   ├── main.html      # Popup UI
-│   ├── main.ts        # Popup logic source
-│   └── main.js        # Compiled popup script
+│   ├── popup.css       # Popup styles
+│   ├── popup.js       # Popup logic
+│   ├── main.ts        # Legacy popup source
+│   └── main.js        # Legacy compiled popup script
 └── images/
     └── placeholder.jpg
 ```
@@ -75,9 +77,9 @@ After rebuilding, reload the extension from `chrome://extensions`.
 
 ## How it works
 
-1. `scripts/content.js` collects signals and sends a `SCAN_RESULT` message with `{ url, score, verdict, signals }`.
-2. `background.js` stores the result in `chrome.storage.session` under `tab:<tabId>` and updates the toolbar badge.
-3. `popup/main.js` reads the active tab's stored result and renders it.
+1. `scripts/content.js` collects signals and sends a `SCAN_RESULT` message with `{ url, score, verdict, signals }`, and rescans when the popup sends `SCAN_REQUEST`.
+2. `background.js` stores the top-frame result in `chrome.storage.session` under `tab:<tabId>`, updates the toolbar badge, and increments `threatsStopped` in `chrome.storage.local` when a tab becomes flagged.
+3. `popup/popup.js` renders the active tab's stored result and lets the user trigger a fresh scan.
 
 ## Permissions
 
