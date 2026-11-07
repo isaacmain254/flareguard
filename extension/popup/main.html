@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Flare Guard</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+
+      body {
+        width: 320px;
+        margin: 0;
+        padding: 16px;
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        letter-spacing: 0.02em;
+      }
+
+      #status {
+        margin: 0;
+        font-size: 13px;
+        color: #94a3b8;
+      }
+
+      #result[hidden] {
+        display: none;
+      }
+
+      .verdict {
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .verdict.likely {
+        background: #7f1d1d;
+        color: #fecaca;
+      }
+
+      .verdict.possible {
+        background: #78350f;
+        color: #fde68a;
+      }
+
+      .verdict.none {
+        background: #14532d;
+        color: #bbf7d0;
+      }
+
+      .meta {
+        margin: 0 0 4px;
+        font-size: 12px;
+        color: #94a3b8;
+        word-break: break-all;
+      }
+
+      .meta strong {
+        color: #e2e8f0;
+      }
+
+      h2 {
+        margin: 14px 0 6px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #94a3b8;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 6px 0;
+        border-bottom: 1px solid #1e293b;
+        font-size: 12px;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+
+      .signal-name {
+        color: #e2e8f0;
+      }
+
+      .signal-detail {
+        color: #64748b;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 170px;
+      }
+
+      .signal-weight {
+        color: #fbbf24;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flare Guard</h1>
+    <p id="status">Loading scan result…</p>
+    <section id="result" hidden>
+      <div id="verdict" class="verdict"></div>
+      <p class="meta">
+        Risk score: <strong id="score"></strong>
+      </p>
+      <p class="meta" id="url"></p>
+      <h2>Signals</h2>
+      <ul id="signals"></ul>
+    </section>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-// content.ts
 type Signal = { name: string; weight: number; detail?: string };
 
 const PROVIDER_HOSTS = [
