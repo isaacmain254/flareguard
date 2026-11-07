@@ -1,5 +1,3 @@
-import re
-
 import tldextract
 import wordninja
 
@@ -26,9 +24,3 @@ def extract_domain_name(url):
     brand_query = " ".join(brand_keywords)
 
     return brand_query if brand_query else domain_name
-
-
-# --- Test Example ---
-url = "https://easycoachonlinebooking.co.ke/"
-print(extract_domain_name(url))
-# Output: "easy coach"
