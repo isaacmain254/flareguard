@@ -20,11 +20,15 @@ def extract_domain_name(url):
         "portal",
         "kenya",
     }
-    words = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?![a-z])", domain_name)
-    if not words:
-        words = [domain_name]
+    words = wordninja.split(domain_name)
 
     brand_keywords = [w.lower() for w in words if w.lower() not in stop_words]
     brand_query = " ".join(brand_keywords)
 
     return brand_query if brand_query else domain_name
+
+
+# --- Test Example ---
+url = "https://easycoachonlinebooking.co.ke/"
+print(extract_domain_name(url))
+# Output: "easy coach"
