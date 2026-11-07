@@ -30,7 +30,7 @@ function render(result) {
     resultEl.hidden = false;
     verdictEl.textContent = VERDICT_LABELS[result.verdict];
     verdictEl.className = `verdict ${result.verdict}`;
-    scoreEl.textContent = String(result.score);
+    scoreEl.textContent = `${result.score} / 3`;
     urlEl.textContent = result.url;
     signalsEl.replaceChildren(...result.signals.map((signal) => {
         var _a;
