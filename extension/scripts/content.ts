@@ -83,8 +83,9 @@ function collectSignals(): Signal[] {
 
 function evaluate() {
   const signals = collectSignals();
-  const score = signals.reduce((sum, s) => sum + s.weight, 0);
-  const verdict = score >= 5 ? "likely" : score >= 3 ? "possible" : "none";
+  const rawScore = signals.reduce((sum, s) => sum + s.weight, 0);
+  const verdict = rawScore >= 5 ? "likely" : rawScore >= 3 ? "possible" : "none";
+  const score = verdict === "likely" ? 3 : verdict === "possible" ? 2 : 1;
 
   chrome.runtime.sendMessage({
     type: "SCAN_RESULT",
@@ -94,6 +95,13 @@ function evaluate() {
     signals,
   });
 }
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg?.type === "SCAN_REQUEST") {
+    evaluate();
+    sendResponse({ ok: true });
+  }
+});
 
 // Debounced re-scan for SPAs (React/Next/etc. render after load)
 let timer: number | undefined;

@@ -61,8 +61,9 @@ function collectSignals() {
 }
 function evaluate() {
     const signals = collectSignals();
-    const score = signals.reduce((sum, s) => sum + s.weight, 0);
-    const verdict = score >= 5 ? "likely" : score >= 3 ? "possible" : "none";
+    const rawScore = signals.reduce((sum, s) => sum + s.weight, 0);
+    const verdict = rawScore >= 5 ? "likely" : rawScore >= 3 ? "possible" : "none";
+    const score = verdict === "likely" ? 3 : verdict === "possible" ? 2 : 1;
     chrome.runtime.sendMessage({
         type: "SCAN_RESULT",
         url: location.href,
@@ -71,6 +72,12 @@ function evaluate() {
         signals,
     });
 }
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+    if ((msg === null || msg === void 0 ? void 0 : msg.type) === "SCAN_REQUEST") {
+        evaluate();
+        sendResponse({ ok: true });
+    }
+});
 // Debounced re-scan for SPAs (React/Next/etc. render after load)
 let timer;
 const observer = new MutationObserver(() => {
