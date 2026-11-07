@@ -1,0 +1,10 @@
+{
+  "name": "Flare Guard",
+  "description": "A Chrome extension to detect and block fraudulent website clones and redirect to the correct site",
+  "version": "0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "main.html",
+    "default_icon": "placeholder.jpg"
+  }
+}
