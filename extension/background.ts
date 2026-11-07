@@ -1,10 +1,22 @@
 // background.ts
 chrome.runtime.onMessage.addListener((msg, sender) => {
-  if (msg.type !== "SCAN_RESULT" || !sender.tab?.id) return;
+  if (msg.type !== "SCAN_RESULT" || sender.frameId !== 0 || !sender.tab?.id) return;
   const tabId = sender.tab.id;
+  const key = `tab:${tabId}`;
 
-  // Only the top frame decides the badge, but merge iframe results if you want
-  chrome.storage.session.set({ [`tab:${tabId}`]: msg });
+  chrome.storage.session.get(key, (prev) => {
+    const wasFlagged = prev[key]?.verdict && prev[key].verdict !== "none";
+    const isFlagged = msg.verdict !== "none";
+    if (isFlagged && !wasFlagged) {
+      chrome.storage.local.get("threatsStopped", (stored) => {
+        chrome.storage.local.set({
+          threatsStopped: (stored.threatsStopped || 0) + 1,
+        });
+      });
+    }
+
+    chrome.storage.session.set({ [key]: msg });
+  });
 
   chrome.action.setBadgeText({
     tabId,
